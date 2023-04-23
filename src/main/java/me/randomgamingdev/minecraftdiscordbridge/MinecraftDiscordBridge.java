@@ -37,28 +37,10 @@ public final class MinecraftDiscordBridge extends JavaPlugin {
         discordCommands = new DiscordCommands(bot, this);
         bot.addEventListener(discordCommands);
         new PerSecondTask(this, bot, discordCommands).runTaskTimer(this, 0, 20);
-        origOut = System.out;
-        sharedOut = new DualStream(this.getLogger(), new PrintStream(outputStream));
-        System.setOut(sharedOut);
-        System.setErr(sharedOut);
-        this.getLogger().addHandler(new Handler() {
-
-            @Override
-            public void publish(LogRecord record) {
-                try {
-                    outputStream.write(record.getMessage().getBytes());
-                }
-                catch (Exception exception) {
-                    System.out.println("Something went wrong while trying to write from the logger to the output stream");
-                }
-            }
-
-            @Override
-            public void flush() {}
-
-            @Override
-            public void close() throws SecurityException {}
-        });
+        //origOut = System.out;
+        //sharedOut = new DualStream(this.getLogger(), new PrintStream(outputStream));
+        //System.setOut(sharedOut);
+        //System.setErr(sharedOut);
         this.getCommand("trustuser").setExecutor(new MinecraftCommandTrustUser(discordCommands));
         this.getCommand("untrustuser").setExecutor(new MinecraftCommandUntrustUser(discordCommands));
         this.getCommand("listtrusted").setExecutor(new MinecraftCommandListTrusted(discordCommands, this));
