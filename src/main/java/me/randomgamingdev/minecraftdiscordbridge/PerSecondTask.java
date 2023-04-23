@@ -30,7 +30,7 @@ public class PerSecondTask extends BukkitRunnable {
             TextChannel channel = bot.getTextChannelById(channelId);
             if (channel == null)
                 continue;
-            channel.sendMessage(this.plugin.outputStream.toString()).queue();
+            channel.sendMessage(new String(this.plugin.outputStream.toByteArray())).queue();
         }
         this.plugin.outputStream.reset();
     }
