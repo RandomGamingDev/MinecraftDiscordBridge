@@ -1,0 +1,26 @@
+name: MinecraftDiscordBridge
+version: '${project.version}'
+main: me.randomgamingdev.minecraftdiscordbridge.MinecraftDiscordBridge
+api-version: 1.19
+authors: [ RandomGamingDev ]
+description: A basic bridge between Minecraft and Discord.
+
+commands:
+  trustuser:
+    usage: /<command> <string>
+    permission: minecraftdiscordbridge.trustuser
+  untrustuser:
+    usage: /<command> <string>
+    permission: minecraftdiscordbridge.untrustuser
+  listtrusted:
+    usage: /<command>
+    permission: minecraftdiscordbridge.listtrusted
+  addout:
+    usage: /<command> <string>
+    permission: minecraftdiscordbridge.addout
+  removeout:
+    usage: /<command> <string>
+    permission: minecraftdiscordbridge.removeout
+  listout:
+    usage: /<command>
+    permission: minecraftdiscordbridge.listout
