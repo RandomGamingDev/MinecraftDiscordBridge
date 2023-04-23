@@ -1,7 +1,7 @@
 name: MinecraftDiscordBridge
 version: '${project.version}'
 main: me.randomgamingdev.minecraftdiscordbridge.MinecraftDiscordBridge
-api-version: 1.19
+api-version: 1.18
 authors: [ RandomGamingDev ]
 description: A basic bridge between Minecraft and Discord.
 

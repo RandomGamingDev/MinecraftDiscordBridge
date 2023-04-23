@@ -1,5 +1,6 @@
 package me.randomgamingdev.minecraftdiscordbridge;
 
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -41,6 +42,9 @@ public class MsgListener implements Listener {
 
     @EventHandler
     public void onServerCommandEvent(ServerCommandEvent event) {
+        if (!(event.getSender() instanceof ConsoleCommandSender))
+            return;
+
         try {
             plugin.outputStream.write((String.format("%s issued server command: %s",
                     event.getSender().getName(),

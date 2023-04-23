@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public final class MinecraftDiscordBridge extends JavaPlugin {
     public ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -39,6 +41,24 @@ public final class MinecraftDiscordBridge extends JavaPlugin {
         sharedOut = new DualStream(this.getLogger(), new PrintStream(outputStream));
         System.setOut(sharedOut);
         System.setErr(sharedOut);
+        this.getLogger().addHandler(new Handler() {
+
+            @Override
+            public void publish(LogRecord record) {
+                try {
+                    outputStream.write(record.getMessage().getBytes());
+                }
+                catch (Exception exception) {
+                    System.out.println("Something went wrong while trying to write from the logger to the output stream");
+                }
+            }
+
+            @Override
+            public void flush() {}
+
+            @Override
+            public void close() throws SecurityException {}
+        });
         this.getCommand("trustuser").setExecutor(new MinecraftCommandTrustUser(discordCommands));
         this.getCommand("untrustuser").setExecutor(new MinecraftCommandUntrustUser(discordCommands));
         this.getCommand("listtrusted").setExecutor(new MinecraftCommandListTrusted(discordCommands, this));
