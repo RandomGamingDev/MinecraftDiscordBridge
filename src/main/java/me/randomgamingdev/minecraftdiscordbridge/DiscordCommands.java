@@ -59,9 +59,6 @@ public class DiscordCommands extends ListenerAdapter {
         if (author.getIdLong() == bot.getSelfUser().getIdLong())
             return;
 
-        if (!trustedUsers.contains(author.getIdLong()))
-            return;
-
         Message msg = event.getMessage();
         String dispMsg = msg.getContentDisplay();
         if (dispMsg.isEmpty()) // https://github.com/DV8FromTheWorld/JDA/wiki/19%29-Troubleshooting#nothing-happens-when-using-x
@@ -73,6 +70,8 @@ public class DiscordCommands extends ListenerAdapter {
         MessageChannelUnion channel = event.getChannel();
 
         if (msgHead == '!') {
+            if (!trustedUsers.contains(author.getIdLong()))
+                return;
             final String trustUser = "trustUser";
             final String untrustUser = "untrustUser";
             final String listTrusted = "listTrusted";
@@ -195,10 +194,12 @@ public class DiscordCommands extends ListenerAdapter {
 
         switch (msgHead) {
             case '$':
+                if (!trustedUsers.contains(author.getIdLong()))
+                    break;
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        server.dispatchCommand(server.getConsoleSender(), rawCmd);
+                        server.dispatchCommand(server.getConsoleSender(), rawContent);
                     }
                 }.runTask(plugin);
                 break;
