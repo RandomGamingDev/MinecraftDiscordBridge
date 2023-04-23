@@ -59,6 +59,9 @@ public class DiscordCommands extends ListenerAdapter {
         if (author.getIdLong() == bot.getSelfUser().getIdLong())
             return;
 
+        if (!trustedUsers.contains(author.getIdLong()))
+            return;
+
         Message msg = event.getMessage();
         String dispMsg = msg.getContentDisplay();
         if (dispMsg.isEmpty()) // https://github.com/DV8FromTheWorld/JDA/wiki/19%29-Troubleshooting#nothing-happens-when-using-x
@@ -186,9 +189,6 @@ public class DiscordCommands extends ListenerAdapter {
         }
 
         if (!outChannels.contains(channel.getIdLong()))
-            return;
-
-        if (!trustedUsers.contains(author.getIdLong()))
             return;
 
         Server server = plugin.getServer();
