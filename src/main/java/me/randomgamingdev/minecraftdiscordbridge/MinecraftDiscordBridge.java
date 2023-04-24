@@ -5,13 +5,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.PrintStream;
 import java.util.Scanner;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 public final class MinecraftDiscordBridge extends JavaPlugin {
     //public ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -33,7 +28,7 @@ public final class MinecraftDiscordBridge extends JavaPlugin {
         bot = botBuilder.build();
         discordCommands = new DiscordCommands(bot, this);
         bot.addEventListener(discordCommands);
-        new PerSecondTask(this, bot, discordCommands).runTaskTimer(this, 0, 20);
+        new PerTickTask(this, bot, discordCommands).runTaskTimer(this, 0, 20);
         this.getCommand("trustuser").setExecutor(new MinecraftCommandTrustUser(discordCommands));
         this.getCommand("untrustuser").setExecutor(new MinecraftCommandUntrustUser(discordCommands));
         this.getCommand("listtrusted").setExecutor(new MinecraftCommandListTrusted(discordCommands, this));

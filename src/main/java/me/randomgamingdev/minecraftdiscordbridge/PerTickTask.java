@@ -7,13 +7,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.util.Scanner;
 
-public class PerSecondTask extends BukkitRunnable {
+public class PerTickTask extends BukkitRunnable {
     private final MinecraftDiscordBridge plugin;
     private final JDA bot;
     private final DiscordCommands discordCommands;
     int cursor = 0;
 
-    PerSecondTask(MinecraftDiscordBridge plugin, JDA bot, DiscordCommands discordCommands) {
+    PerTickTask(MinecraftDiscordBridge plugin, JDA bot, DiscordCommands discordCommands) {
         this.plugin = plugin;
         this.bot = bot;
         this.discordCommands = discordCommands;
@@ -49,11 +49,25 @@ public class PerSecondTask extends BukkitRunnable {
         String msg = builder.toString();
         if (msg.isEmpty())
             return;
+        msg = msg.replace("\\", "\\\\")
+                .replace("*", "\\*")
+                .replace("~", "\\~")
+                .replace("`", "\\`")
+                .replace(":", "\\:");
 
         for (Long channelId : discordCommands.outChannels) {
             TextChannel channel = bot.getTextChannelById(channelId);
-            if (channel != null)
-                channel.sendMessage(msg).queue();
+            if (channel == null)
+                continue;
+
+            final int maxLen = 2000;
+            int i = 0;
+            for (; i < Math.floor(msg.length() / maxLen); i++) {
+                int msgHead = i * maxLen;
+                channel.sendMessage(msg.substring(msgHead, msgHead + maxLen)).queue();
+            }
+            int msgHead = i * maxLen;
+            channel.sendMessage(msg.substring(msgHead, msg.length())).queue();
         }
     }
 }
