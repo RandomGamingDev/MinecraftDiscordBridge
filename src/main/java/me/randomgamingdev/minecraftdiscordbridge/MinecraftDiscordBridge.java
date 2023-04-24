@@ -14,15 +14,12 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 public final class MinecraftDiscordBridge extends JavaPlugin {
-    public ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    //public ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     public JDA bot;
     public DiscordCommands discordCommands;
-    public PrintStream origOut;
-    public PrintStream sharedOut;
     @Override
     public void onEnable() {
         System.out.println("MinecraftDiscordBridge is starting up!");
-        this.getServer().getPluginManager().registerEvents(new MsgListener(this), this);
         Scanner tokenFile = null;
         try {
             tokenFile = new Scanner(new File("MinecraftDiscordBridgeBotToken.txt"));
@@ -37,10 +34,6 @@ public final class MinecraftDiscordBridge extends JavaPlugin {
         discordCommands = new DiscordCommands(bot, this);
         bot.addEventListener(discordCommands);
         new PerSecondTask(this, bot, discordCommands).runTaskTimer(this, 0, 20);
-        //origOut = System.out;
-        //sharedOut = new DualStream(this.getLogger(), new PrintStream(outputStream));
-        //System.setOut(sharedOut);
-        //System.setErr(sharedOut);
         this.getCommand("trustuser").setExecutor(new MinecraftCommandTrustUser(discordCommands));
         this.getCommand("untrustuser").setExecutor(new MinecraftCommandUntrustUser(discordCommands));
         this.getCommand("listtrusted").setExecutor(new MinecraftCommandListTrusted(discordCommands, this));
