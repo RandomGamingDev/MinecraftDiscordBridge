@@ -69,7 +69,7 @@ public class PerTickTask extends BukkitRunnable {
                 channel.sendMessage(msg.substring(msgHead, msgHead + maxLen)).queue();
             }
             int msgHead = i * maxLen;
-            channel.sendMessage(msg.substring(msgHead, msg.length())).queue();
+            channel.sendMessage(msg.substring(msgHead)).queue();
         }
     }
 }
