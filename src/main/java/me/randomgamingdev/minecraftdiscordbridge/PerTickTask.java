@@ -53,7 +53,8 @@ public class PerTickTask extends BukkitRunnable {
                 .replace("*", "\\*")
                 .replace("~", "\\~")
                 .replace("`", "\\`")
-                .replace(":", "\\:");
+                .replace(":", "\\:")
+                .replace("@", "@\u200B");
 
         for (Long channelId : discordCommands.outChannels) {
             TextChannel channel = bot.getTextChannelById(channelId);
