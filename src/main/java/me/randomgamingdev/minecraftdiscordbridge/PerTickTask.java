@@ -49,7 +49,7 @@ public class PerTickTask extends BukkitRunnable {
         String msg = builder.toString();
         if (msg.isEmpty())
             return;
-        msg = msg.replace("@", "@\u200B")
+        msg = msg.replace("@", "@\u200B");
 
         for (Long channelId : discordCommands.outChannels) {
             TextChannel channel = bot.getTextChannelById(channelId);
