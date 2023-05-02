@@ -39,7 +39,7 @@ public class PerTickTask extends BukkitRunnable {
         }
 
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < cursor; i++)
+        for (int i = 0; i < cursor && scanner.hasNextLine(); i++)
             scanner.nextLine();
         while (scanner.hasNextLine()) {
             builder.append(scanner.nextLine() + '\n');
